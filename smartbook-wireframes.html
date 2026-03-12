@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SmartBook – Lo-Fi Wireframes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --paper: #F5F0E8;
+    --ink: #1A1A2E;
+    --ink2: #3A3A5C;
+    --gray: #8A8A9A;
+    --line: #C8C0B0;
+    --box: #E8E2D8;
+    --box2: #D8D0C4;
+    --accent: #2D2D2D;
+    --blue: #4A6FA5;
+    --green: #3D7A4F;
+    --red: #B03A3A;
+    --yellow: #C8A020;
+    --shadow: 2px 3px 0 rgba(0,0,0,0.12);
+    --shadow2: 3px 4px 0 rgba(0,0,0,0.15);
+    --ff: 'IBM Plex Mono', monospace;
+    --hand: 'Caveat', cursive;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    font-family: var(--ff);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    background: var(--ink);
+    color: #fff;
+    padding: 48px 60px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 4px solid #000;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 280px; height: 280px;
+    border: 2px solid rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  .cover-left {}
+  .cover-tag {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 12px;
+  }
+  .cover-title {
+    font-family: var(--hand);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .cover-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+  .cover-right {
+    text-align: right;
+  }
+  .cover-meta {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    line-height: 2;
+  }
+
+  /* ── Nav Tabs ── */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--line);
+    padding: 0 60px;
+    background: var(--box);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tab {
+    padding: 14px 24px;
+    font-family: var(--ff);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    color: var(--gray);
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  .nav-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gray);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .nav-tab.active .nav-dot { background: var(--ink); }
+
+  /* ── Section ── */
+  .section {
+    display: none;
+    padding: 48px 60px;
+    animation: fadeIn 0.25s ease;
+  }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .section-label {
+    font-family: var(--hand);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .section-desc {
+    font-size: 11px;
+    color: var(--gray);
+    margin-bottom: 36px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Wireframe Frame ── */
+  .frames-row {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .frame-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .frame-label {
+    font-family: var(--hand);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .frame-num {
+    width: 22px; height: 22px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ff);
+    font-weight: 600;
+  }
+
+  .device {
+    border: 2px solid var(--ink);
+    background: #fff;
+    box-shadow: var(--shadow2);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+  .device-bar {
+    background: var(--ink);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .device-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: 1px solid rgba(255,255,255,0.5);
+  }
+  .device-url {
+    flex: 1;
+    background: rgba(255,255,255,0.12);
+    border-radius: 2px;
+    height: 14px;
+    margin: 0 8px;
+  }
+
+  /* ── WF Primitives ── */
+  .wf-navbar {
+    background: var(--box);
+    border-bottom: 1.5px solid var(--line);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .wf-logo {
+    width: 28px; height: 18px;
+    background: var(--ink);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .wf-nav-links { display: flex; gap: 8px; flex: 1; }
+  .wf-nav-link {
+    height: 10px;
+    background: var(--box2);
+    border-radius: 99px;
+  }
+  .wf-avatar {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--line);
+    border: 1.5px solid var(--ink);
+    flex-shrink: 0;
+  }
+
+  .wf-body { padding: 16px; }
+
+  .wf-h1 {
+    height: 18px;
+    background: var(--ink);
+    border-radius: 2px;
+    margin-bottom: 6px;
+  }
+  .wf-h2 {
+    height: 13px;
+    background: var(--line);
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+  .wf-text {
+    height: 8px;
+    background: var(--box2);
+    border-radius: 2px;
+    margin-bottom: 5px;
+  }
+  .wf-label {
+    height: 7px;
+    background: var(--box2);
+    border-radius: 2px;
+    margin-bottom: 4px;
+    width: 40%;
+  }
+  .wf-input {
+    height: 24px;
+    border: 1.5px solid var(--line);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    background: #fff;
+    position: relative;
+  }
+  .wf-input::after {
+    content: '';
+    position: absolute;
+    left: 8px; top: 50%; transform: translateY(-50%);
+    width: 40%;
+    height: 6px;
+    background: var(--box2);
+    border-radius: 2px;
+  }
+  .wf-btn {
+    height: 28px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--hand);
+    font-size: 13px;
+    font-weight: 600;
+    border: 1.5px solid var(--ink);
+    margin-bottom: 10px;
+    cursor: default;
+  }
+  .wf-btn-primary { background: var(--ink); color: #fff; }
+  .wf-btn-outline { background: #fff; color: var(--ink); }
+  .wf-btn-ghost { border-style: dashed; background: #fff; color: var(--gray); font-size: 11px; }
+
+  .wf-card {
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 8px;
+    box-shadow: 1px 1px 0 var(--line);
+  }
+  .wf-card-selected {
+    border-color: var(--ink);
+    border-width: 2px;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .wf-badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 99px;
+    font-family: var(--hand);
+    font-size: 10px;
+    font-weight: 600;
+    border: 1px solid;
+  }
+  .wf-badge-green { background: #E8F5EE; color: var(--green); border-color: var(--green); }
+  .wf-badge-red { background: #FDEDEC; color: var(--red); border-color: var(--red); }
+  .wf-badge-blue { background: #EBF5FB; color: var(--blue); border-color: var(--blue); }
+  .wf-badge-yellow { background: #FEF9E7; color: var(--yellow); border-color: var(--yellow); }
+
+  .wf-divider { height: 1px; background: var(--line); margin: 10px 0; }
+
+  .wf-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .wf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .wf-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+
+  .wf-icon {
+    width: 18px; height: 18px;
+    border-radius: 3px;
+    background: var(--box2);
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  .wf-img-placeholder {
+    background: var(--box);
+    border: 1.5px dashed var(--line);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--hand);
+    font-size: 11px;
+    color: var(--gray);
+    margin-bottom: 10px;
+  }
+
+  .wf-tab-row {
+    display: flex;
+    border-bottom: 1.5px solid var(--line);
+    margin-bottom: 10px;
+  }
+  .wf-tab {
+    padding: 5px 12px;
+    font-family: var(--hand);
+    font-size: 11px;
+    color: var(--gray);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1.5px;
+  }
+  .wf-tab.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+
+  .wf-date-scroll { display: flex; gap: 6px; margin-bottom: 10px; overflow: hidden; }
+  .wf-date-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 8px;
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    min-width: 36px;
+    background: #fff;
+  }
+  .wf-date-chip.sel { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .wf-date-day { font-family: var(--hand); font-size: 9px; }
+  .wf-date-num { font-family: var(--hand); font-size: 16px; font-weight: 700; line-height: 1.1; }
+
+  .wf-slot-card {
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 1px 1px 0 var(--line);
+  }
+  .wf-slot-time {
+    font-family: var(--hand);
+    font-size: 13px;
+    font-weight: 700;
+    min-width: 70px;
+  }
+  .wf-slot-info { flex: 1; }
+  .wf-slot-name { height: 9px; background: var(--ink); border-radius: 2px; margin-bottom: 4px; width: 60%; }
+  .wf-slot-meta { height: 7px; background: var(--box2); border-radius: 2px; width: 80%; }
+
+  .wf-confirm-ring {
+    width: 52px; height: 52px;
+    border: 3px solid var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    font-family: var(--hand);
+    font-size: 22px;
+    color: var(--green);
+    font-weight: 700;
+  }
+
+  .wf-stat-card {
+    border: 1.5px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 1px 1px 0 var(--line);
+  }
+  .wf-stat-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .wf-stat-num { font-family: var(--hand); font-size: 28px; font-weight: 700; }
+  .wf-stat-lbl { height: 7px; background: var(--box2); border-radius: 2px; width: 60%; margin-top: 4px; }
+
+  .wf-table-header {
+    display: flex;
+    gap: 6px;
+    padding: 6px 8px;
+    background: var(--box);
+    border: 1px solid var(--line);
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+  }
+  .wf-table-row {
+    display: flex;
+    gap: 6px;
+    padding: 7px 8px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-top: none;
+    align-items: center;
+  }
+  .wf-table-row:last-child { border-radius: 0 0 3px 3px; }
+  .wf-col { height: 8px; background: var(--box2); border-radius: 2px; }
+  .wf-col-dark { height: 8px; background: var(--line); border-radius: 2px; }
+
+  /* annotation */
+  .anno {
+    position: absolute;
+    font-family: var(--hand);
+    font-size: 12px;
+    color: var(--blue);
+    pointer-events: none;
+  }
+  .anno::before { content: '← '; }
+  .anno-right::before { content: ''; }
+  .anno-right::after { content: ' →'; }
+  .anno-top::before { content: '↑ '; }
+
+  .annotation-box {
+    font-family: var(--hand);
+    font-size: 12px;
+    color: var(--blue);
+    background: rgba(74,111,165,0.06);
+    border: 1px dashed rgba(74,111,165,0.4);
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* ── Auth Split ── */
+  .auth-split {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    min-height: 440px;
+  }
+  .auth-left-panel {
+    background: var(--ink);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .auth-brand-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .auth-brand-logo {
+    width: 32px; height: 32px;
+    background: var(--yellow);
+    border-radius: 4px;
+  }
+  .auth-brand-name { height: 14px; background: rgba(255,255,255,0.7); border-radius: 2px; width: 70%; }
+  .auth-brand-tag { height: 8px; background: rgba(255,255,255,0.2); border-radius: 2px; }
+  .auth-feature-row { display: flex; gap: 8px; align-items: center; }
+  .auth-feature-icon { width: 28px; height: 28px; border-radius: 4px; background: rgba(255,255,255,0.1); flex-shrink: 0; }
+  .auth-feature-text { flex: 1; }
+  .auth-feature-title { height: 8px; background: rgba(255,255,255,0.5); border-radius: 2px; margin-bottom: 4px; }
+  .auth-feature-desc { height: 6px; background: rgba(255,255,255,0.2); border-radius: 2px; width: 80%; }
+  .auth-right-panel { padding: 16px; background: #fff; }
+
+  /* ── Progress / strength ── */
+  .wf-progress { height: 4px; background: var(--box); border-radius: 2px; overflow: hidden; margin-bottom: 8px; }
+  .wf-progress-fill { height: 100%; background: var(--green); border-radius: 2px; }
+
+  /* ── Filter chips ── */
+  .chip-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .wf-chip {
+    padding: 3px 10px;
+    border-radius: 99px;
+    border: 1.5px solid var(--line);
+    font-family: var(--hand);
+    font-size: 11px;
+    background: #fff;
+  }
+  .wf-chip.sel { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--box); }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+  /* ── Legend / Notes ── */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px 60px;
+    background: var(--box);
+    border-top: 2px solid var(--line);
+    font-size: 11px;
+    color: var(--gray);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch { width: 16px; height: 10px; border-radius: 2px; }
+
+  /* ── Annotations panel ── */
+  .notes-panel {
+    background: #fffef5;
+    border: 1.5px solid var(--yellow);
+    border-radius: 4px;
+    padding: 14px 18px;
+    margin-top: 20px;
+    font-family: var(--hand);
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--ink2);
+    box-shadow: 2px 2px 0 var(--yellow);
+  }
+  .notes-panel strong { color: var(--ink); }
+
+  .page-indicator {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<div class="cover">
+  <div class="cover-left">
+    <div class="cover-tag">Hackathon Design Deliverable · Lo-Fi Wireframes</div>
+    <div class="cover-title">SmartBook</div>
+    <div class="cover-sub">Smart Appointment Booking System<br>Angular 17 · 8 Screens · Interactive Prototype</div>
+  </div>
+  <div class="cover-right">
+    <div class="cover-meta">
+      Version 1.0<br>
+      8 Wireframe Screens<br>
+      2 User Roles<br>
+      Lo-Fidelity
+    </div>
+  </div>
+</div>
+
+<!-- Nav Tabs -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="show('login')"><span class="nav-dot"></span>01 Login</button>
+  <button class="nav-tab" onclick="show('register')"><span class="nav-dot"></span>02 Register</button>
+  <button class="nav-tab" onclick="show('slot-list')"><span class="nav-dot"></span>03 Slot List</button>
+  <button class="nav-tab" onclick="show('book')"><span class="nav-dot"></span>04 Book Appt</button>
+  <button class="nav-tab" onclick="show('confirm')"><span class="nav-dot"></span>05 Confirmation</button>
+  <button class="nav-tab" onclick="show('admin-dash')"><span class="nav-dot"></span>06 Admin Dashboard</button>
+  <button class="nav-tab" onclick="show('admin-slots')"><span class="nav-dot"></span>07 Manage Slots</button>
+  <button class="nav-tab" onclick="show('mobile')"><span class="nav-dot"></span>08 Mobile View</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN 01 — Login -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section active" id="s-login">
+  <div class="page-indicator">Screen 01 / 08</div>
+  <div class="section-label">Login Page</div>
+  <div class="section-desc">ENTRY POINT · SPLIT LAYOUT · ROLE DETECTION ON SUBMIT</div>
+
+  <div class="frames-row">
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">1</span> Desktop · 1440px</div>
+      <div class="device" style="width:680px;">
+        <div class="device-bar">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+          <div class="device-url"></div>
+        </div>
+        <div class="auth-split">
+          <!-- Left panel -->
+          <div class="auth-left-panel">
+            <div class="auth-brand-block">
+              <div class="auth-brand-logo"></div>
+              <div class="auth-brand-name"></div>
+              <div class="auth-brand-tag"></div>
+            </div>
+            <div style="height:1px;background:rgba(255,255,255,0.1);margin:4px 0;"></div>
+            <div class="auth-feature-row">
+              <div class="auth-feature-icon"></div>
+              <div class="auth-feature-text">
+                <div class="auth-feature-title"></div>
+                <div class="auth-feature-desc"></div>
+              </div>
+            </div>
+            <div class="auth-feature-row">
+              <div class="auth-feature-icon"></div>
+              <div class="auth-feature-text">
+                <div class="auth-feature-title"></div>
+                <div class="auth-feature-desc"></div>
+              </div>
+            </div>
+            <div class="auth-feature-row">
+              <div class="auth-feature-icon"></div>
+              <div class="auth-feature-text">
+                <div class="auth-feature-title"></div>
+                <div class="auth-feature-desc"></div>
+              </div>
+            </div>
+            <div style="flex:1;"></div>
+            <div style="height:24px;background:rgba(255,255,255,0.06);border-radius:3px;"></div>
+          </div>
+          <!-- Right panel -->
+          <div class="auth-right-panel">
+            <div style="margin-bottom:16px;">
+              <div class="wf-h1" style="width:55%;margin-bottom:5px;"></div>
+              <div class="wf-h2" style="width:75%;"></div>
+            </div>
+            <div class="wf-label"></div>
+            <div class="wf-input"></div>
+            <div class="wf-label"></div>
+            <div class="wf-input" style="position:relative;">
+              <div style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:14px;height:10px;background:var(--box2);border-radius:1px;"></div>
+            </div>
+            <div class="wf-btn wf-btn-primary" style="margin-top:4px;">Sign In</div>
+            <div class="wf-divider"></div>
+            <div style="text-align:center;">
+              <div class="wf-text" style="width:60%;margin:0 auto;"></div>
+            </div>
+            <div style="margin-top:12px;padding:10px;background:var(--box);border-radius:3px;border-left:3px solid var(--yellow);">
+              <div class="wf-text" style="width:40%;"></div>
+              <div class="wf-text" style="width:80%;"></div>
+              <div class="wf-text" style="width:70%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="notes-panel">
+        <strong>Key Decisions:</strong><br>
+        → Split layout: branding left / form right<br>
+        → Show/hide password toggle on input<br>
+        → Demo credentials hint (hackathon convenience)<br>
+        → On success: admin → /admin, user → /booking<br>
+        → Error state: inline alert above form
+      </div>
+    </div>
+
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">✓</span> States</div>
+      <div style="display:flex;flex-direction:column;gap:14px;width:220px;">
+
+        <div>
+          <div style="font-family:var(--hand);font-size:12px;color:var(--gray);margin-bottom:6px;">Error State</div>
+          <div class="device" style="width:220px;">
+            <div class="device-bar"></div>
+            <div class="auth-right-panel" style="padding:12px;">
+              <div style="padding:8px 10px;background:#FDEDEC;border-left:3px solid var(--red);border-radius:2px;margin-bottom:10px;">
+                <div class="wf-text" style="background:#C0392B;opacity:0.3;width:90%;"></div>
+              </div>
+              <div class="wf-label"></div>
+              <div class="wf-input" style="border-color:var(--red);background:#fff8f8;"></div>
+              <div class="wf-btn wf-btn-primary" style="height:24px;font-size:11px;">Sign In</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-family:var(--hand);font-size:12px;color:var(--gray);margin-bottom:6px;">Loading State</div>
+          <div class="device" style="width:220px;">
+            <div class="device-bar"></div>
+            <div class="auth-right-panel" style="padding:12px;">
+              <div class="wf-label"></div>
+              <div class="wf-input"></div>
+              <div class="wf-label"></div>
+              <div class="wf-input"></div>
+              <div class="wf-btn wf-btn-primary" style="height:24px;font-size:11px;opacity:0.6;">
+                ◌ Signing in...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN 02 — Register -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="s-register">
+  <div class="page-indicator">Screen 02 / 08</div>
+  <div class="section-label">Registration Page</div>
+  <div class="section-desc">NEW USER ONBOARDING · FORM VALIDATION · PASSWORD STRENGTH METER</div>
+
+  <div class="frames-row">
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">2</span> Desktop · Register Form</div>
+      <div class="device" style="width:680px;">
+        <div class="device-bar">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+          <div class="device-url"></div>
+        </div>
+        <div class="auth-split">
+          <div class="auth-left-panel">
+            <div class="auth-brand-block">
+              <div class="auth-brand-logo"></div>
+              <div class="auth-brand-name"></div>
+            </div>
+            <div style="height:1px;background:rgba(255,255,255,0.1);margin:6px 0;"></div>
+            <!-- Steps -->
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="auth-feature-row">
+                <div style="width:24px;height:24px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-family:var(--hand);font-size:11px;font-weight:700;color:#000;flex-shrink:0;">1</div>
+                <div class="auth-feature-text">
+                  <div class="auth-feature-title"></div>
+                  <div class="auth-feature-desc"></div>
+                </div>
+              </div>
+              <div class="auth-feature-row">
+                <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-family:var(--hand);font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);flex-shrink:0;">2</div>
+                <div class="auth-feature-text">
+                  <div class="auth-feature-title" style="background:rgba(255,255,255,0.3);"></div>
+                  <div class="auth-feature-desc"></div>
+                </div>
+              </div>
+              <div class="auth-feature-row">
+                <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-family:var(--hand);font-size:11px;font-weight:700;color:rgba(255,255,255,0.5);flex-shrink:0;">3</div>
+                <div class="auth-feature-text">
+                  <div class="auth-feature-title" style="background:rgba(255,255,255,0.3);"></div>
+                  <div class="auth-feature-desc"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="auth-right-panel">
+            <div style="margin-bottom:14px;">
+              <div class="wf-h1" style="width:50%;margin-bottom:5px;"></div>
+              <div class="wf-h2" style="width:70%;"></div>
+            </div>
+            <div class="wf-grid-2" style="margin-bottom:0;">
+              <div>
+                <div class="wf-label"></div>
+                <div class="wf-input"></div>
+              </div>
+              <div>
+                <div class="wf-label"></div>
+                <div class="wf-input"></div>
+              </div>
+            </div>
+            <div class="wf-label"></div>
+            <div class="wf-input"></div>
+            <div class="wf-grid-2" style="margin-bottom:0;">
+              <div>
+                <div class="wf-label"></div>
+                <div class="wf-input"></div>
+              </div>
+              <div>
+                <div class="wf-label"></div>
+                <div class="wf-input"></div>
+              </div>
+            </div>
+            <!-- Password strength -->
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <div class="wf-progress" style="flex:1;margin:0;">
+                <div class="wf-progress-fill" style="width:60%;background:var(--yellow);"></div>
+              </div>
+              <span style="font-family:var(--hand);font-size:11px;color:var(--yellow);">Fair</span>
+            </div>
+            <div class="wf-btn wf-btn-primary">Create Account</div>
+            <div class="wf-divider"></div>
+            <div style="text-align:center;">
+              <div class="wf-text" style="width:50%;margin:0 auto;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes-panel">
+        <strong>Validation Rules:</strong><br>
+        → Name min 2 chars · Phone 10-digit regex<br>
+        → Email format check · Password min 6 chars<br>
+        → Confirm password match (cross-field validator)<br>
+        → Password strength: Weak / Fair / Strong<br>
+        → On success: redirect to /auth/login with toast
+      </div>
+    </div>
+
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">✓</span> Validation States</div>
+      <div class="device" style="width:240px;">
+        <div class="device-bar"></div>
+        <div style="padding:12px;background:#fff;">
+          <div class="wf-label" style="color:var(--red);background:none;font-family:var(--hand);font-size:10px;height:auto;margin-bottom:2px;">Full Name *</div>
+          <div class="wf-input" style="border-color:var(--red);background:#fff8f8;margin-bottom:3px;"></div>
+          <div style="font-family:var(--hand);font-size:10px;color:var(--red);margin-bottom:8px;">⚠ Min 2 characters</div>
+
+          <div class="wf-label" style="font-family:var(--hand);font-size:10px;height:auto;margin-bottom:2px;">Email *</div>
+          <div class="wf-input" style="border-color:var(--green);margin-bottom:3px;"></div>
+          <div style="font-family:var(--hand);font-size:10px;color:var(--green);margin-bottom:8px;">✓ Valid email</div>
+
+          <div style="font-family:var(--hand);font-size:10px;margin-bottom:4px;">Password strength:</div>
+          <div style="display:flex;gap:4px;margin-bottom:10px;">
+            <div style="flex:1;height:5px;background:var(--red);border-radius:2px;"></div>
+            <div style="flex:1;height:5px;background:var(--box2);border-radius:2px;"></div>
+            <div style="flex:1;height:5px;background:var(--box2);border-radius:2px;"></div>
+          </div>
+          <div class="wf-btn wf-btn-primary" style="height:26px;font-size:11px;">Create Account</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN 03 — Slot List -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="s-slot-list">
+  <div class="page-indicator">Screen 03 / 08</div>
+  <div class="section-label">Appointment Slot Browser</div>
+  <div class="section-desc">USER HOME · DATE PICKER · SERVICE FILTER · AVAILABILITY GRID</div>
+
+  <div class="frames-row">
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">3</span> Desktop · Main View</div>
+      <div class="device" style="width:680px;">
+        <div class="device-bar">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+          <div class="device-url"></div>
+        </div>
+        <!-- Navbar -->
+        <div class="wf-navbar">
+          <div class="wf-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link" style="width:70px;background:var(--line);"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="width:60px;height:8px;background:var(--box2);border-radius:99px;"></div>
+            <div class="wf-avatar"></div>
+          </div>
+        </div>
+        <div class="wf-body">
+          <!-- Page title row -->
+          <div class="wf-row" style="justify-content:space-between;margin-bottom:12px;">
+            <div>
+              <div class="wf-h1" style="width:220px;"></div>
+              <div class="wf-text" style="width:160px;"></div>
+            </div>
+            <div class="wf-badge wf-badge-green">● 18 available</div>
+          </div>
+
+          <!-- Date scroll -->
+          <div class="wf-date-scroll">
+            <div class="wf-date-chip"><div class="wf-date-day">Mon</div><div class="wf-date-num">13</div></div>
+            <div class="wf-date-chip sel"><div class="wf-date-day">Tue</div><div class="wf-date-num">14</div></div>
+            <div class="wf-date-chip"><div class="wf-date-day">Wed</div><div class="wf-date-num">15</div></div>
+            <div class="wf-date-chip"><div class="wf-date-day">Thu</div><div class="wf-date-num">16</div></div>
+            <div class="wf-date-chip"><div class="wf-date-day">Fri</div><div class="wf-date-num">17</div></div>
+            <div class="wf-date-chip"><div class="wf-date-day">Mon</div><div class="wf-date-num">20</div></div>
+          </div>
+
+          <!-- Service chips -->
+          <div class="chip-row">
+            <div class="wf-chip sel">All</div>
+            <div class="wf-chip">Consultation</div>
+            <div class="wf-chip">Checkup</div>
+            <div class="wf-chip">Follow-up</div>
+            <div class="wf-chip">Dental</div>
+            <div class="wf-chip">Therapy</div>
+          </div>
+
+          <!-- Slot grid 3-col -->
+          <div class="wf-grid-3" style="margin-bottom:16px;">
+            <div class="wf-card">
+              <div class="wf-row" style="justify-content:space-between;margin-bottom:6px;">
+                <div style="font-family:var(--hand);font-size:13px;font-weight:700;">09:00–09:30</div>
+                <div class="wf-badge wf-badge-green">Avail</div>
+              </div>
+              <div class="wf-text" style="width:65%;"></div>
+              <div class="wf-text" style="width:80%;"></div>
+              <div class="wf-btn wf-btn-primary" style="height:24px;font-size:11px;margin-top:8px;">Book Now →</div>
+            </div>
+            <div class="wf-card">
+              <div class="wf-row" style="justify-content:space-between;margin-bottom:6px;">
+                <div style="font-family:var(--hand);font-size:13px;font-weight:700;">09:30–10:00</div>
+                <div class="wf-badge wf-badge-red">Full</div>
+              </div>
+              <div class="wf-text" style="width:65%;"></div>
+              <div class="wf-text" style="width:80%;"></div>
+              <div class="wf-btn wf-btn-ghost" style="height:24px;font-size:10px;margin-top:8px;">Slot Full</div>
+            </div>
+            <div class="wf-card wf-card-selected">
+              <div class="wf-row" style="justify-content:space-between;margin-bottom:6px;">
+                <div style="font-family:var(--hand);font-size:13px;font-weight:700;">10:00–10:30</div>
+                <div class="wf-badge wf-badge-blue">Booked</div>
+              </div>
+              <div class="wf-text" style="width:65%;"></div>
+              <div class="wf-text" style="width:80%;"></div>
+              <div class="wf-btn wf-btn-outline" style="height:24px;font-size:10px;margin-top:8px;" disabled>Already Booked</div>
+            </div>
+            <div class="wf-card">
+              <div class="wf-row" style="justify-content:space-between;margin-bottom:6px;">
+                <div style="font-family:var(--hand);font-size:13px;font-weight:700;">10:30–11:00</div>
+                <div class="wf-badge wf-badge-green">Avail</div>
+              </div>
+              <div class="wf-text" style="width:65%;"></div>
+              <div class="wf-text" style="width:80%;"></div>
+              <div class="wf-btn wf-btn-primary" style="height:24px;font-size:11px;margin-top:8px;">Book Now →</div>
+            </div>
+            <div class="wf-card">
+              <div class="wf-row" style="justify-content:space-between;margin-bottom:6px;">
+                <div style="font-family:var(--hand);font-size:13px;font-weight:700;">11:00–11:30</div>
+                <div class="wf-badge wf-badge-green">Avail</div>
+              </div>
+              <div class="wf-text" style="width:65%;"></div>
+              <div class="wf-text" style="width:80%;"></div>
+              <div class="wf-btn wf-btn-primary" style="height:24px;font-size:11px;margin-top:8px;">Book Now →</div>
+            </div>
+            <div class="wf-card">
+              <div class="wf-row" style="justify-content:space-between;margin-bottom:6px;">
+                <div style="font-family:var(--hand);font-size:13px;font-weight:700;">14:00–14:30</div>
+                <div class="wf-badge wf-badge-green">Avail</div>
+              </div>
+              <div class="wf-text" style="width:65%;"></div>
+              <div class="wf-text" style="width:80%;"></div>
+              <div class="wf-btn wf-btn-primary" style="height:24px;font-size:11px;margin-top:8px;">Book Now →</div>
+            </div>
+          </div>
+
+          <!-- My Appointments -->
+          <div class="wf-h2" style="width:180px;background:var(--ink);"></div>
+          <div class="wf-table-header">
+            <div class="wf-col-dark" style="width:60px;"></div>
+            <div class="wf-col-dark" style="flex:1;"></div>
+            <div class="wf-col-dark" style="width:80px;"></div>
+            <div class="wf-col-dark" style="width:60px;"></div>
+          </div>
+          <div class="wf-table-row">
+            <div style="font-family:var(--hand);font-size:11px;min-width:60px;">Tue 14</div>
+            <div class="wf-col" style="flex:1;"></div>
+            <div class="wf-col" style="width:80px;"></div>
+            <div class="wf-badge wf-badge-blue" style="font-size:9px;">Confirmed</div>
+          </div>
+        </div>
+      </div>
+      <div class="notes-panel">
+        <strong>Interactions:</strong><br>
+        → Date chips: click to filter slots by date<br>
+        → Service chips: click to filter by type (multi not supported)<br>
+        → Slot card hover: border highlight + shadow lift<br>
+        → "Book Now" → navigates to /booking/book/:slotId<br>
+        → Conflict detection happens on backend (slot.service.ts)
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN 04 — Book Appointment -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="s-book">
+  <div class="page-indicator">Screen 04 / 08</div>
+  <div class="section-label">Book Appointment</div>
+  <div class="section-desc">SLOT SUMMARY + USER FORM · CONFLICT GUARD · CONFIRM CTA</div>
+
+  <div class="frames-row">
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">4</span> Desktop · Booking Form</div>
+      <div class="device" style="width:680px;">
+        <div class="device-bar">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+          <div class="device-url"></div>
+        </div>
+        <div class="wf-navbar">
+          <div class="wf-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link" style="width:70px;background:var(--line);"></div>
+          </div>
+          <div class="wf-avatar"></div>
+        </div>
+        <div class="wf-body">
+          <!-- Back link -->
+          <div style="font-family:var(--hand);font-size:12px;color:var(--blue);margin-bottom:12px;">← Back to Slots</div>
+
+          <!-- Two-column layout -->
+          <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:16px;">
+            <!-- Slot Summary Card -->
+            <div class="wf-card">
+              <div class="wf-row" style="margin-bottom:12px;gap:10px;">
+                <div style="width:40px;height:40px;border-radius:4px;background:var(--box);border:1px solid var(--line);flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div class="wf-h1" style="width:80%;margin-bottom:4px;"></div>
+                  <div class="wf-text" style="width:90%;"></div>
+                </div>
+              </div>
+              <div class="wf-divider"></div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <div class="wf-row" style="justify-content:space-between;">
+                  <div style="font-family:var(--hand);font-size:10px;color:var(--gray);">DATE</div>
+                  <div class="wf-text" style="width:55%;"></div>
+                </div>
+                <div class="wf-row" style="justify-content:space-between;">
+                  <div style="font-family:var(--hand);font-size:10px;color:var(--gray);">TIME</div>
+                  <div style="font-family:var(--hand);font-size:12px;font-weight:700;">09:00–09:30</div>
+                </div>
+                <div class="wf-row" style="justify-content:space-between;">
+                  <div style="font-family:var(--hand);font-size:10px;color:var(--gray);">DURATION</div>
+                  <div style="font-family:var(--hand);font-size:11px;">30 min</div>
+                </div>
+                <div class="wf-row" style="justify-content:space-between;">
+                  <div style="font-family:var(--hand);font-size:10px;color:var(--gray);">SLOTS LEFT</div>
+                  <div class="wf-badge wf-badge-green">1 / 1</div>
+                </div>
+              </div>
+              <div class="wf-divider"></div>
+              <div class="wf-row">
+                <div style="width:36px;height:36px;border-radius:50%;background:var(--box2);border:1.5px solid var(--line);flex-shrink:0;"></div>
+                <div>
+                  <div class="wf-text" style="width:80px;"></div>
+                  <div class="wf-text" style="width:110px;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="wf-card">
+              <div class="wf-h1" style="width:55%;margin-bottom:5px;"></div>
+              <div class="wf-text" style="width:70%;margin-bottom:14px;"></div>
+              <div class="wf-label"></div>
+              <div class="wf-input"></div>
+              <div class="wf-label"></div>
+              <div style="height:50px;border:1.5px solid var(--line);border-radius:3px;background:#fff;margin-bottom:10px;"></div>
+              <!-- Confirm box -->
+              <div style="display:flex;gap:6px;background:var(--box);border-radius:3px;padding:8px;margin-bottom:12px;">
+                <div style="width:16px;height:16px;background:var(--line);border-radius:2px;flex-shrink:0;"></div>
+                <div style="flex:1;">
+                  <div class="wf-text" style="width:90%;"></div>
+                  <div class="wf-text" style="width:70%;"></div>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;justify-content:flex-end;">
+                <div class="wf-btn wf-btn-outline" style="width:80px;height:28px;font-size:11px;">Cancel</div>
+                <div class="wf-btn wf-btn-primary" style="width:130px;height:28px;font-size:11px;">Confirm Booking →</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes-panel">
+        <strong>Conflict Detection:</strong><br>
+        → Slot checked: active + capacity > 0 + no duplicate<br>
+        → Time overlap check: same date, minutes comparison<br>
+        → On conflict: error alert shown above form<br>
+        → On success: navigate to /booking/confirmation/:id
+      </div>
+    </div>
+
+    <!-- Error state -->
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">!</span> Conflict Error</div>
+      <div class="device" style="width:240px;">
+        <div class="device-bar"></div>
+        <div style="padding:12px;background:#fff;">
+          <div style="padding:8px 10px;background:#FDEDEC;border-left:3px solid var(--red);border-radius:2px;margin-bottom:10px;display:flex;gap:6px;">
+            <div style="font-family:var(--hand);font-size:10px;color:var(--red);">⚠</div>
+            <div style="flex:1;">
+              <div class="wf-text" style="background:#C0392B;opacity:0.3;width:95%;"></div>
+              <div class="wf-text" style="background:#C0392B;opacity:0.3;width:70%;"></div>
+            </div>
+          </div>
+          <div class="wf-label"></div>
+          <div class="wf-input"></div>
+          <div class="wf-btn wf-btn-primary" style="height:26px;font-size:11px;opacity:0.5;">Confirm Booking →</div>
+        </div>
+      </div>
+      <div class="annotation-box">
+        Possible conflict messages:<br>
+        · "Slot already fully booked"<br>
+        · "You already booked this slot"<br>
+        · "You have 10:00-10:30 booked"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN 05 — Confirmation -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="s-confirm">
+  <div class="page-indicator">Screen 05 / 08</div>
+  <div class="section-label">Booking Confirmation</div>
+  <div class="section-desc">SUCCESS SCREEN · BOOKING ID · ALL DETAILS · NEXT ACTIONS</div>
+
+  <div class="frames-row">
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">5</span> Confirmation Card</div>
+      <div class="device" style="width:500px;">
+        <div class="device-bar">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+          <div class="device-url"></div>
+        </div>
+        <div style="background:var(--box);padding:24px;display:flex;align-items:center;justify-content:center;min-height:440px;">
+          <div class="wf-card" style="max-width:380px;width:100%;text-align:center;padding:24px;">
+            <!-- Success ring -->
+            <div class="wf-confirm-ring">✓</div>
+            <div class="wf-h1" style="width:65%;margin:0 auto 6px;"></div>
+            <div class="wf-text" style="width:75%;margin:0 auto 16px;"></div>
+
+            <!-- Booking ID pill -->
+            <div style="display:inline-block;padding:5px 14px;background:var(--box);border-radius:99px;font-family:var(--hand);font-size:11px;margin-bottom:20px;">
+              Booking ID: <strong>APPT-1234567890</strong>
+            </div>
+
+            <!-- Detail grid 3-col -->
+            <div class="wf-grid-3" style="margin-bottom:16px;">
+              <div style="background:var(--box);border-radius:3px;padding:8px;text-align:left;">
+                <div style="width:16px;height:16px;background:var(--line);border-radius:2px;margin-bottom:5px;"></div>
+                <div style="font-family:var(--hand);font-size:9px;color:var(--gray);margin-bottom:3px;">DATE</div>
+                <div class="wf-text" style="width:80%;"></div>
+              </div>
+              <div style="background:var(--box);border-radius:3px;padding:8px;text-align:left;">
+                <div style="width:16px;height:16px;background:var(--line);border-radius:2px;margin-bottom:5px;"></div>
+                <div style="font-family:var(--hand);font-size:9px;color:var(--gray);margin-bottom:3px;">TIME</div>
+                <div style="font-family:var(--hand);font-size:11px;font-weight:700;">09:00–09:30</div>
+              </div>
+              <div style="background:var(--box);border-radius:3px;padding:8px;text-align:left;">
+                <div style="width:16px;height:16px;background:var(--line);border-radius:2px;margin-bottom:5px;"></div>
+                <div style="font-family:var(--hand);font-size:9px;color:var(--gray);margin-bottom:3px;">SERVICE</div>
+                <div class="wf-text" style="width:80%;"></div>
+              </div>
+              <div style="background:var(--box);border-radius:3px;padding:8px;text-align:left;">
+                <div style="width:16px;height:16px;background:var(--line);border-radius:2px;margin-bottom:5px;"></div>
+                <div style="font-family:var(--hand);font-size:9px;color:var(--gray);margin-bottom:3px;">NAME</div>
+                <div class="wf-text" style="width:80%;"></div>
+              </div>
+              <div style="background:var(--box);border-radius:3px;padding:8px;text-align:left;">
+                <div style="width:16px;height:16px;background:var(--line);border-radius:2px;margin-bottom:5px;"></div>
+                <div style="font-family:var(--hand);font-size:9px;color:var(--gray);margin-bottom:3px;">EMAIL</div>
+                <div class="wf-text" style="width:90%;"></div>
+              </div>
+              <div style="background:var(--box);border-radius:3px;padding:8px;text-align:left;">
+                <div style="width:16px;height:16px;background:var(--line);border-radius:2px;margin-bottom:5px;"></div>
+                <div style="font-family:var(--hand);font-size:9px;color:var(--gray);margin-bottom:3px;">PHONE</div>
+                <div class="wf-text" style="width:70%;"></div>
+              </div>
+            </div>
+
+            <div class="wf-badge wf-badge-blue" style="margin-bottom:14px;">✓ Confirmed</div>
+
+            <div class="wf-btn wf-btn-outline" style="max-width:180px;margin:0 auto 12px;height:28px;font-size:11px;">Book Another →</div>
+
+            <div style="display:flex;align-items:center;gap:6px;justify-content:center;">
+              <div style="width:12px;height:12px;background:var(--line);border-radius:50%;flex-shrink:0;"></div>
+              <div class="wf-text" style="width:70%;margin:0;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes-panel">
+        <strong>Screen Logic:</strong><br>
+        → Route: /booking/confirmation/:appointmentId<br>
+        → ngOnInit: fetch appointment by ID from service<br>
+        → If not found: redirect to /booking<br>
+        → Success ring animates in (scaleIn keyframe)<br>
+        → "Book Another" → /booking
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN 06 — Admin Dashboard -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="s-admin-dash">
+  <div class="page-indicator">Screen 06 / 08</div>
+  <div class="section-label">Admin Dashboard</div>
+  <div class="section-desc">STATS OVERVIEW · ALL APPOINTMENTS · FILTER TABS · ACTIONS</div>
+
+  <div class="frames-row">
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">6</span> Admin Home</div>
+      <div class="device" style="width:720px;">
+        <div class="device-bar">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+          <div class="device-url"></div>
+        </div>
+        <div class="wf-navbar">
+          <div class="wf-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link" style="width:70px;background:var(--line);"></div>
+            <div class="wf-nav-link" style="width:90px;"></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <div style="padding:4px 10px;background:var(--box2);border-radius:2px;font-family:var(--hand);font-size:10px;color:var(--gray);">Admin</div>
+            <div class="wf-avatar"></div>
+          </div>
+        </div>
+        <div class="wf-body">
+          <!-- Header -->
+          <div class="wf-row" style="justify-content:space-between;margin-bottom:16px;">
+            <div>
+              <div class="wf-h1" style="width:200px;"></div>
+              <div class="wf-text" style="width:180px;"></div>
+            </div>
+            <div class="wf-btn wf-btn-primary" style="width:120px;height:28px;font-size:11px;">+ Manage Slots</div>
+          </div>
+
+          <!-- 4 stat cards -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;">
+            <div class="wf-stat-card">
+              <div class="wf-stat-bar" style="background:var(--blue);"></div>
+              <div style="width:18px;height:18px;background:var(--box2);border-radius:2px;margin-bottom:6px;"></div>
+              <div class="wf-stat-num" style="color:var(--blue);">48</div>
+              <div class="wf-stat-lbl"></div>
+            </div>
+            <div class="wf-stat-card">
+              <div class="wf-stat-bar" style="background:var(--green);"></div>
+              <div style="width:18px;height:18px;background:var(--box2);border-radius:2px;margin-bottom:6px;"></div>
+              <div class="wf-stat-num" style="color:var(--green);">12</div>
+              <div class="wf-stat-lbl"></div>
+            </div>
+            <div class="wf-stat-card">
+              <div class="wf-stat-bar" style="background:var(--yellow);"></div>
+              <div style="width:18px;height:18px;background:var(--box2);border-radius:2px;margin-bottom:6px;"></div>
+              <div class="wf-stat-num" style="color:var(--yellow);">7</div>
+              <div class="wf-stat-lbl"></div>
+            </div>
+            <div class="wf-stat-card">
+              <div class="wf-stat-bar" style="background:var(--red);"></div>
+              <div style="width:18px;height:18px;background:var(--box2);border-radius:2px;margin-bottom:6px;"></div>
+              <div class="wf-stat-num" style="color:var(--red);">3</div>
+              <div class="wf-stat-lbl"></div>
+            </div>
+          </div>
+
+          <!-- Appointments table with filter tabs -->
+          <div class="wf-row" style="justify-content:space-between;margin-bottom:12px;">
+            <div class="wf-h2" style="width:160px;background:var(--ink);"></div>
+            <div class="wf-tab-row" style="margin:0;border:none;">
+              <div class="wf-tab active">All</div>
+              <div class="wf-tab">Confirmed</div>
+              <div class="wf-tab">Completed</div>
+              <div class="wf-tab">Cancelled</div>
+            </div>
+          </div>
+
+          <div class="wf-table-header" style="display:grid;grid-template-columns:2fr 1fr 1.5fr 1fr 0.8fr;">
+            <div class="wf-col-dark" style="width:80%;"></div>
+            <div class="wf-col-dark" style="width:60%;"></div>
+            <div class="wf-col-dark" style="width:70%;"></div>
+            <div class="wf-col-dark" style="width:60%;"></div>
+            <div class="wf-col-dark" style="width:80%;"></div>
+          </div>
+          <div class="wf-table-row" style="display:grid;grid-template-columns:2fr 1fr 1.5fr 1fr 0.8fr;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--box2);border:1px solid var(--line);flex-shrink:0;"></div>
+              <div>
+                <div class="wf-col" style="width:80px;margin-bottom:3px;"></div>
+                <div class="wf-col" style="width:60px;background:var(--box2);"></div>
+              </div>
+            </div>
+            <div><div class="wf-col" style="width:70%;"></div></div>
+            <div>
+              <div class="wf-col" style="width:80%;margin-bottom:3px;"></div>
+              <div class="wf-col" style="width:60%;background:var(--box2);"></div>
+            </div>
+            <div><div class="wf-badge wf-badge-blue" style="font-size:9px;">Confirmed</div></div>
+            <div style="display:flex;gap:4px;">
+              <div class="wf-btn wf-btn-primary" style="padding:2px 6px;height:20px;font-size:9px;">Done</div>
+              <div class="wf-btn wf-btn-ghost" style="padding:2px 6px;height:20px;font-size:9px;">✕</div>
+            </div>
+          </div>
+          <div class="wf-table-row" style="display:grid;grid-template-columns:2fr 1fr 1.5fr 1fr 0.8fr;background:var(--paper);">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--box2);border:1px solid var(--line);flex-shrink:0;"></div>
+              <div>
+                <div class="wf-col" style="width:90px;margin-bottom:3px;"></div>
+                <div class="wf-col" style="width:70px;background:var(--box2);"></div>
+              </div>
+            </div>
+            <div><div class="wf-col" style="width:70%;"></div></div>
+            <div>
+              <div class="wf-col" style="width:80%;margin-bottom:3px;"></div>
+              <div class="wf-col" style="width:60%;background:var(--box2);"></div>
+            </div>
+            <div><div class="wf-badge wf-badge-green" style="font-size:9px;">Completed</div></div>
+            <div></div>
+          </div>
+          <div class="wf-table-row" style="display:grid;grid-template-columns:2fr 1fr 1.5fr 1fr 0.8fr;opacity:0.5;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="width:28px;height:28px;border-radius:50%;background:var(--box2);border:1px solid var(--line);flex-shrink:0;"></div>
+              <div>
+                <div class="wf-col" style="width:70px;margin-bottom:3px;"></div>
+                <div class="wf-col" style="width:60px;background:var(--box2);"></div>
+              </div>
+            </div>
+            <div><div class="wf-col" style="width:70%;"></div></div>
+            <div>
+              <div class="wf-col" style="width:80%;margin-bottom:3px;"></div>
+              <div class="wf-col" style="width:60%;background:var(--box2);"></div>
+            </div>
+            <div><div class="wf-badge wf-badge-red" style="font-size:9px;">Cancelled</div></div>
+            <div></div>
+          </div>
+        </div>
+      </div>
+      <div class="notes-panel">
+        <strong>Admin Capabilities:</strong><br>
+        → Stats auto-computed from appointments signal<br>
+        → Filter tabs: client-side filtering, no reload<br>
+        → "Done" → marks appointment as completed<br>
+        → "✕" → cancel with confirm() dialog<br>
+        → "+ Manage Slots" → /admin/manage-slots
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN 07 — Manage Slots -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="s-admin-slots">
+  <div class="page-indicator">Screen 07 / 08</div>
+  <div class="section-label">Manage Slots</div>
+  <div class="section-desc">ADMIN ONLY · CREATE SLOT FORM · TOGGLE / DELETE · PROGRESS BARS</div>
+
+  <div class="frames-row">
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">7</span> Manage Slots Page</div>
+      <div class="device" style="width:720px;">
+        <div class="device-bar">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+          <div class="device-url"></div>
+        </div>
+        <div class="wf-navbar">
+          <div class="wf-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link" style="width:70px;"></div>
+            <div class="wf-nav-link" style="width:90px;background:var(--line);"></div>
+          </div>
+          <div class="wf-avatar"></div>
+        </div>
+        <div class="wf-body">
+          <!-- Header -->
+          <div class="wf-row" style="justify-content:space-between;margin-bottom:5px;">
+            <div>
+              <div style="font-family:var(--hand);font-size:11px;color:var(--blue);margin-bottom:4px;">← Dashboard</div>
+              <div class="wf-h1" style="width:180px;margin-bottom:4px;"></div>
+              <div class="wf-text" style="width:200px;"></div>
+            </div>
+            <div class="wf-btn wf-btn-primary" style="width:120px;height:28px;font-size:11px;">+ Add New Slot</div>
+          </div>
+
+          <!-- Create Slot Form (expanded) -->
+          <div class="wf-card" style="margin-bottom:14px;border-style:dashed;border-color:var(--blue);">
+            <div class="wf-h2" style="width:140px;background:var(--ink);margin-bottom:12px;"></div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+              <div>
+                <div class="wf-label" style="font-family:var(--hand);font-size:9px;height:auto;margin-bottom:3px;color:var(--gray);">DATE</div>
+                <div class="wf-input"></div>
+              </div>
+              <div>
+                <div class="wf-label" style="font-family:var(--hand);font-size:9px;height:auto;margin-bottom:3px;color:var(--gray);">SERVICE</div>
+                <div class="wf-input"></div>
+              </div>
+              <div>
+                <div class="wf-label" style="font-family:var(--hand);font-size:9px;height:auto;margin-bottom:3px;color:var(--gray);">START TIME</div>
+                <div class="wf-input"></div>
+              </div>
+              <div>
+                <div class="wf-label" style="font-family:var(--hand);font-size:9px;height:auto;margin-bottom:3px;color:var(--gray);">END TIME</div>
+                <div class="wf-input"></div>
+              </div>
+              <div>
+                <div class="wf-label" style="font-family:var(--hand);font-size:9px;height:auto;margin-bottom:3px;color:var(--gray);">DURATION (min)</div>
+                <div class="wf-input"></div>
+              </div>
+              <div>
+                <div class="wf-label" style="font-family:var(--hand);font-size:9px;height:auto;margin-bottom:3px;color:var(--gray);">MAX CAPACITY</div>
+                <div class="wf-input"></div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+              <div class="wf-btn wf-btn-ghost" style="width:70px;height:24px;font-size:10px;">Cancel</div>
+              <div class="wf-btn wf-btn-primary" style="width:100px;height:24px;font-size:10px;">Create Slot</div>
+            </div>
+          </div>
+
+          <!-- Date filter -->
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="font-family:var(--hand);font-size:11px;color:var(--gray);">Filter by date:</div>
+            <div class="wf-input" style="width:140px;margin:0;"></div>
+          </div>
+
+          <!-- Slots table -->
+          <div class="wf-table-header" style="display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr 0.8fr 0.8fr;">
+            <div class="wf-col-dark" style="width:70%;"></div>
+            <div class="wf-col-dark" style="width:60%;"></div>
+            <div class="wf-col-dark" style="width:80%;"></div>
+            <div class="wf-col-dark" style="width:70%;"></div>
+            <div class="wf-col-dark" style="width:80%;"></div>
+            <div class="wf-col-dark" style="width:60%;"></div>
+          </div>
+          <!-- Row 1 -->
+          <div class="wf-table-row" style="display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr 0.8fr 0.8fr;">
+            <div>
+              <div class="wf-col" style="width:30px;margin-bottom:3px;background:var(--box2);"></div>
+              <div class="wf-col" style="width:55px;"></div>
+            </div>
+            <div style="font-family:var(--hand);font-size:12px;font-weight:700;">09:00<br><span style="font-size:10px;font-weight:400;color:var(--gray);">09:30</span></div>
+            <div><div style="display:inline-block;padding:2px 8px;background:var(--box);border-radius:99px;font-family:var(--hand);font-size:10px;">Consultation</div></div>
+            <div>
+              <div class="wf-progress" style="margin-bottom:3px;"><div class="wf-progress-fill" style="width:0%;"></div></div>
+              <div style="font-family:var(--hand);font-size:10px;color:var(--gray);">0 / 1</div>
+            </div>
+            <div><div class="wf-badge wf-badge-green" style="font-size:9px;">Active</div></div>
+            <div style="display:flex;gap:4px;">
+              <div class="wf-btn wf-btn-ghost" style="padding:2px 5px;height:20px;font-size:10px;">⏻</div>
+              <div class="wf-btn wf-btn-ghost" style="padding:2px 5px;height:20px;font-size:10px;">🗑</div>
+            </div>
+          </div>
+          <!-- Row 2 -->
+          <div class="wf-table-row" style="display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr 0.8fr 0.8fr;">
+            <div>
+              <div class="wf-col" style="width:30px;margin-bottom:3px;background:var(--box2);"></div>
+              <div class="wf-col" style="width:55px;"></div>
+            </div>
+            <div style="font-family:var(--hand);font-size:12px;font-weight:700;">09:30<br><span style="font-size:10px;font-weight:400;color:var(--gray);">10:00</span></div>
+            <div><div style="display:inline-block;padding:2px 8px;background:var(--box);border-radius:99px;font-family:var(--hand);font-size:10px;">Checkup</div></div>
+            <div>
+              <div class="wf-progress" style="margin-bottom:3px;"><div class="wf-progress-fill" style="width:100%;"></div></div>
+              <div style="font-family:var(--hand);font-size:10px;color:var(--gray);">1 / 1</div>
+            </div>
+            <div><div class="wf-badge wf-badge-green" style="font-size:9px;">Active</div></div>
+            <div style="display:flex;gap:4px;">
+              <div class="wf-btn wf-btn-ghost" style="padding:2px 5px;height:20px;font-size:10px;">⏻</div>
+              <div class="wf-btn wf-btn-ghost" style="padding:2px 5px;height:20px;font-size:10px;opacity:0.3;">🗑</div>
+            </div>
+          </div>
+          <!-- Row 3 (inactive) -->
+          <div class="wf-table-row" style="display:grid;grid-template-columns:1fr 1fr 1fr 1.2fr 0.8fr 0.8fr;opacity:0.5;">
+            <div>
+              <div class="wf-col" style="width:30px;margin-bottom:3px;background:var(--box2);"></div>
+              <div class="wf-col" style="width:55px;"></div>
+            </div>
+            <div style="font-family:var(--hand);font-size:12px;font-weight:700;">10:00<br><span style="font-size:10px;font-weight:400;color:var(--gray);">10:30</span></div>
+            <div><div style="display:inline-block;padding:2px 8px;background:var(--box);border-radius:99px;font-family:var(--hand);font-size:10px;">Dental</div></div>
+            <div>
+              <div class="wf-progress" style="margin-bottom:3px;"><div class="wf-progress-fill" style="width:0%;"></div></div>
+              <div style="font-family:var(--hand);font-size:10px;color:var(--gray);">0 / 1</div>
+            </div>
+            <div><div class="wf-badge wf-badge-red" style="font-size:9px;">Inactive</div></div>
+            <div style="display:flex;gap:4px;">
+              <div class="wf-btn wf-btn-ghost" style="padding:2px 5px;height:20px;font-size:10px;">↺</div>
+              <div class="wf-btn wf-btn-ghost" style="padding:2px 5px;height:20px;font-size:10px;">🗑</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes-panel">
+        <strong>Slot Rules:</strong><br>
+        → End time must be after start time (validated)<br>
+        → Delete blocked if slot has active bookings<br>
+        → Toggle: isActive flip (doesn't affect existing bookings)<br>
+        → Progress bar shows bookedCount / maxCapacity<br>
+        → Greyed-out delete icon = has active bookings
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SCREEN 08 — Mobile View -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="s-mobile">
+  <div class="page-indicator">Screen 08 / 08</div>
+  <div class="section-label">Mobile Responsive Views</div>
+  <div class="section-desc">375px VIEWPORT · COLLAPSED NAV · SINGLE COLUMN LAYOUT</div>
+
+  <div class="frames-row">
+    <!-- Mobile Login -->
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">M1</span> Mobile Login</div>
+      <div class="device" style="width:200px;">
+        <div class="device-bar" style="padding:5px 10px;">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+        </div>
+        <div style="padding:16px;background:#fff;min-height:380px;">
+          <div style="text-align:center;margin-bottom:16px;">
+            <div style="width:44px;height:44px;background:var(--ink);border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;"></div>
+            <div class="wf-h1" style="width:70%;margin:0 auto 5px;"></div>
+            <div class="wf-text" style="width:80%;margin:0 auto;"></div>
+          </div>
+          <div class="wf-label"></div>
+          <div class="wf-input"></div>
+          <div class="wf-label"></div>
+          <div class="wf-input"></div>
+          <div class="wf-btn wf-btn-primary" style="height:32px;font-size:12px;">Sign In</div>
+          <div class="wf-divider"></div>
+          <div class="wf-text" style="width:60%;margin:0 auto;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Slots -->
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">M2</span> Mobile Slots</div>
+      <div class="device" style="width:200px;">
+        <div class="device-bar" style="padding:5px 10px;">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+        </div>
+        <div style="padding:12px;background:#fff;min-height:400px;">
+          <div class="wf-navbar" style="padding:6px 0;background:transparent;">
+            <div class="wf-logo"></div>
+            <div style="flex:1;"></div>
+            <div class="wf-avatar" style="width:28px;height:28px;"></div>
+          </div>
+          <div class="wf-h1" style="width:80%;margin:8px 0 4px;"></div>
+          <!-- Date scroll mobile -->
+          <div style="display:flex;gap:5px;overflow:hidden;margin-bottom:8px;">
+            <div class="wf-date-chip" style="min-width:32px;padding:4px 6px;"><div class="wf-date-day">M</div><div class="wf-date-num" style="font-size:14px;">13</div></div>
+            <div class="wf-date-chip sel" style="min-width:32px;padding:4px 6px;"><div class="wf-date-day">T</div><div class="wf-date-num" style="font-size:14px;">14</div></div>
+            <div class="wf-date-chip" style="min-width:32px;padding:4px 6px;"><div class="wf-date-day">W</div><div class="wf-date-num" style="font-size:14px;">15</div></div>
+            <div class="wf-date-chip" style="min-width:32px;padding:4px 6px;"><div class="wf-date-day">T</div><div class="wf-date-num" style="font-size:14px;">16</div></div>
+          </div>
+          <!-- Slots list mobile (1 col) -->
+          <div class="wf-slot-card">
+            <div class="wf-slot-time">09:00</div>
+            <div class="wf-slot-info">
+              <div class="wf-slot-name"></div>
+              <div class="wf-slot-meta"></div>
+            </div>
+            <div class="wf-badge wf-badge-green" style="font-size:9px;">Avail</div>
+          </div>
+          <div class="wf-slot-card">
+            <div class="wf-slot-time">09:30</div>
+            <div class="wf-slot-info">
+              <div class="wf-slot-name"></div>
+              <div class="wf-slot-meta"></div>
+            </div>
+            <div class="wf-badge wf-badge-red" style="font-size:9px;">Full</div>
+          </div>
+          <div class="wf-slot-card">
+            <div class="wf-slot-time">10:00</div>
+            <div class="wf-slot-info">
+              <div class="wf-slot-name"></div>
+              <div class="wf-slot-meta"></div>
+            </div>
+            <div class="wf-badge wf-badge-blue" style="font-size:9px;">Booked</div>
+          </div>
+          <div class="wf-slot-card">
+            <div class="wf-slot-time">10:30</div>
+            <div class="wf-slot-info">
+              <div class="wf-slot-name"></div>
+              <div class="wf-slot-meta"></div>
+            </div>
+            <div class="wf-badge wf-badge-green" style="font-size:9px;">Avail</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Confirmation -->
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">M3</span> Mobile Confirm</div>
+      <div class="device" style="width:200px;">
+        <div class="device-bar" style="padding:5px 10px;">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+        </div>
+        <div style="padding:16px;background:var(--box);min-height:380px;display:flex;align-items:center;justify-content:center;">
+          <div class="wf-card" style="padding:16px;text-align:center;">
+            <div class="wf-confirm-ring" style="width:40px;height:40px;font-size:18px;margin-bottom:8px;">✓</div>
+            <div class="wf-h1" style="width:80%;margin:0 auto 4px;"></div>
+            <div class="wf-text" style="width:90%;margin:0 auto 12px;"></div>
+            <div class="wf-grid-2" style="gap:6px;margin-bottom:10px;">
+              <div style="background:var(--box);border-radius:3px;padding:6px;">
+                <div class="wf-text" style="width:60%;"></div>
+                <div class="wf-text" style="width:80%;"></div>
+              </div>
+              <div style="background:var(--box);border-radius:3px;padding:6px;">
+                <div class="wf-text" style="width:60%;"></div>
+                <div style="font-family:var(--hand);font-size:11px;font-weight:700;">09:00</div>
+              </div>
+              <div style="background:var(--box);border-radius:3px;padding:6px;">
+                <div class="wf-text" style="width:60%;"></div>
+                <div class="wf-text" style="width:80%;"></div>
+              </div>
+              <div style="background:var(--box);border-radius:3px;padding:6px;">
+                <div class="wf-text" style="width:60%;"></div>
+                <div class="wf-text" style="width:80%;"></div>
+              </div>
+            </div>
+            <div class="wf-btn wf-btn-outline" style="height:24px;font-size:10px;">Book Another</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Admin -->
+    <div class="frame-wrap">
+      <div class="frame-label"><span class="frame-num">M4</span> Mobile Admin</div>
+      <div class="device" style="width:200px;">
+        <div class="device-bar" style="padding:5px 10px;">
+          <div class="device-dot"></div><div class="device-dot"></div><div class="device-dot"></div>
+        </div>
+        <div style="padding:12px;background:#fff;min-height:400px;">
+          <div class="wf-navbar" style="padding:6px 0;background:transparent;">
+            <div class="wf-logo"></div>
+            <div style="flex:1;"></div>
+            <div style="font-family:var(--hand);font-size:10px;padding:2px 8px;background:var(--box2);border-radius:2px;">Admin</div>
+          </div>
+          <!-- 2x2 stat grid on mobile -->
+          <div class="wf-grid-2" style="gap:6px;margin:10px 0;">
+            <div class="wf-stat-card" style="padding:8px;">
+              <div class="wf-stat-bar" style="background:var(--blue);"></div>
+              <div class="wf-stat-num" style="font-size:22px;color:var(--blue);">48</div>
+              <div class="wf-stat-lbl" style="width:70%;"></div>
+            </div>
+            <div class="wf-stat-card" style="padding:8px;">
+              <div class="wf-stat-bar" style="background:var(--green);"></div>
+              <div class="wf-stat-num" style="font-size:22px;color:var(--green);">12</div>
+              <div class="wf-stat-lbl" style="width:70%;"></div>
+            </div>
+            <div class="wf-stat-card" style="padding:8px;">
+              <div class="wf-stat-bar" style="background:var(--yellow);"></div>
+              <div class="wf-stat-num" style="font-size:22px;color:var(--yellow);">7</div>
+              <div class="wf-stat-lbl" style="width:70%;"></div>
+            </div>
+            <div class="wf-stat-card" style="padding:8px;">
+              <div class="wf-stat-bar" style="background:var(--red);"></div>
+              <div class="wf-stat-num" style="font-size:22px;color:var(--red);">3</div>
+              <div class="wf-stat-lbl" style="width:70%;"></div>
+            </div>
+          </div>
+          <!-- Compact appointment rows -->
+          <div class="wf-h2" style="width:130px;background:var(--ink);margin-bottom:8px;"></div>
+          <div class="wf-card" style="padding:8px;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <div>
+              <div class="wf-col" style="width:70px;margin-bottom:3px;"></div>
+              <div class="wf-col" style="width:55px;background:var(--box2);"></div>
+            </div>
+            <div style="text-align:right;"><div class="wf-badge wf-badge-blue" style="font-size:9px;">Confirmed</div></div>
+          </div>
+          <div class="wf-card" style="padding:8px;margin-top:6px;display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+            <div>
+              <div class="wf-col" style="width:70px;margin-bottom:3px;"></div>
+              <div class="wf-col" style="width:55px;background:var(--box2);"></div>
+            </div>
+            <div style="text-align:right;"><div class="wf-badge wf-badge-green" style="font-size:9px;">Completed</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes-panel" style="max-width:680px;margin-top:24px;">
+    <strong>Mobile Breakpoints:</strong><br>
+    → ≤768px: Auth left panel hidden, single column forms<br>
+    → ≤640px: Header logo text hidden, nav text hidden<br>
+    → Slot grid: auto-fill minmax(260px) → single column<br>
+    → Admin table: column hiding via CSS display:none<br>
+    → Date scroll: horizontal scroll, hidden scrollbar
+  </div>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--ink);"></div>Primary action / heading</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--line);border:1px solid var(--line);"></div>Input / border</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--box2);"></div>Secondary content block</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#E8F5EE;border:1px solid #2D7A4F;"></div>Available / success</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#FDEDEC;border:1px solid #B03A3A;"></div>Booked / error</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#EBF5FB;border:1px solid #4A6FA5;"></div>Confirmed / info</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:#fffef5;border:1px solid #C8A020;"></div>Annotation / notes</div>
+  <div class="legend-item" style="margin-left:auto;"><span style="font-family:var(--hand);font-size:13px;">SmartBook Lo-Fi Wireframes v1.0</span></div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('s-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

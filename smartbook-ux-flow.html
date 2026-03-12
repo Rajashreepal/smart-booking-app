@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SmartBook – UX Flow Diagram</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --paper: #F7F3ED;
+    --ink: #1A1A2E;
+    --gray: #6B6B80;
+    --line: #C8C0B0;
+    --box: #EDE8E0;
+    --ff: 'IBM Plex Mono', monospace;
+    --hand: 'Caveat', cursive;
+
+    --user-color: #3D5A80;
+    --user-bg: #EBF2FA;
+    --admin-color: #6B4C2A;
+    --admin-bg: #FAF0E6;
+    --system-color: #2D7A4F;
+    --system-bg: #E8F5EE;
+    --error-color: #B03A3A;
+    --error-bg: #FDEDEC;
+    --decision-color: #8B6914;
+    --decision-bg: #FEF9E7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    font-family: var(--ff);
+    color: var(--ink);
+    padding: 0;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    background: var(--ink);
+    padding: 40px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 4px solid #000;
+  }
+  .cover-title { font-family: var(--hand); font-size: 40px; font-weight: 700; color: #fff; }
+  .cover-sub { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 6px; letter-spacing: 0.1em; }
+  .cover-legend { display: flex; gap: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid rgba(0,0,0,0.2); }
+
+  /* ── Canvas ── */
+  .canvas {
+    overflow-x: auto;
+    padding: 48px 60px 64px;
+  }
+
+  .flow-canvas {
+    min-width: 1200px;
+    position: relative;
+  }
+
+  /* ── Section headings ── */
+  .flow-section {
+    margin-bottom: 60px;
+  }
+  .flow-section-title {
+    font-family: var(--hand);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-pill {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 99px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Flow row ── */
+  .flow-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+  }
+
+  /* ── Flow Step ── */
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .step-box {
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-align: center;
+    min-width: 120px;
+    max-width: 140px;
+    position: relative;
+    cursor: default;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .step-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 4px 0 rgba(0,0,0,0.15);
+  }
+
+  .step-num {
+    position: absolute;
+    top: -10px; left: -10px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--ff);
+  }
+
+  .step-icon {
+    font-size: 18px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .step-title {
+    font-family: var(--hand);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .step-sub {
+    font-size: 9px;
+    opacity: 0.65;
+    line-height: 1.3;
+    margin-top: 2px;
+  }
+
+  /* Types */
+  .step-user .step-box { background: var(--user-bg); border-color: var(--user-color); color: var(--user-color); }
+  .step-admin .step-box { background: var(--admin-bg); border-color: var(--admin-color); color: var(--admin-color); }
+  .step-system .step-box { background: var(--system-bg); border-color: var(--system-color); color: var(--system-color); }
+  .step-error .step-box { background: var(--error-bg); border-color: var(--error-color); color: var(--error-color); }
+  .step-start .step-box { background: var(--ink); border-color: var(--ink); color: #fff; border-radius: 99px; min-width: 80px; padding: 8px 16px; }
+  .step-end .step-box { background: var(--ink); border-color: var(--ink); color: #fff; border-radius: 50%; width: 60px; height: 60px; min-width: unset; max-width: unset; padding: 0; display: flex; align-items: center; justify-content: center; }
+  .step-end .step-title { font-size: 18px; }
+
+  /* Decision diamond */
+  .step-decision {
+    position: relative;
+    z-index: 1;
+  }
+  .diamond {
+    width: 90px;
+    height: 90px;
+    background: var(--decision-bg);
+    border: 2px solid var(--decision-color);
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+  }
+  .diamond:hover { transform: rotate(45deg) scale(1.05); }
+  .diamond-text {
+    transform: rotate(-45deg);
+    font-family: var(--hand);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--decision-color);
+    text-align: center;
+    line-height: 1.2;
+    width: 70px;
+  }
+  .step-decision { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+  /* ── Arrows ── */
+  .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .arrow-h {
+    width: 40px;
+    height: 2px;
+    background: var(--ink);
+    position: relative;
+    margin-top: 35px;
+  }
+  .arrow-h::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -4px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid var(--ink);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+
+  .arrow-label {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--hand);
+    font-size: 10px;
+    color: var(--gray);
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  /* Vertical arrows */
+  .arrow-v-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 6px 0;
+  }
+  .arrow-v {
+    width: 2px;
+    height: 32px;
+    background: var(--ink);
+    position: relative;
+  }
+  .arrow-v::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: -4px;
+    width: 0;
+    height: 0;
+    border-top: 7px solid var(--ink);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+  }
+
+  /* Dashed arrows (error paths) */
+  .arrow-h-dashed {
+    width: 40px;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--error-color) 0 6px, transparent 6px 10px);
+    position: relative;
+    margin-top: 35px;
+  }
+  .arrow-h-dashed::after {
+    content: '';
+    position: absolute;
+    right: -1px;
+    top: -4px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid var(--error-color);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+
+  /* ── Step note ── */
+  .step-note {
+    font-family: var(--hand);
+    font-size: 10px;
+    color: var(--gray);
+    text-align: center;
+    max-width: 120px;
+    line-height: 1.4;
+  }
+
+  /* ── Swimlane ── */
+  .swimlane-container {
+    display: flex;
+    gap: 0;
+  }
+  .swimlane-label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    font-family: var(--hand);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 16px 12px;
+    border-right: 2px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    letter-spacing: 0.1em;
+  }
+  .swimlane-content {
+    flex: 1;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ── Annotation callout ── */
+  .callout {
+    background: #fffef5;
+    border: 1.5px solid #C8A020;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-family: var(--hand);
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--ink);
+    box-shadow: 2px 2px 0 rgba(200,160,32,0.3);
+    max-width: 260px;
+    flex-shrink: 0;
+  }
+  .callout-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; }
+
+  /* ── Overview table ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .overview-card {
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+    background: #fff;
+    box-shadow: 2px 2px 0 var(--line);
+  }
+  .overview-card-title {
+    font-family: var(--hand);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .overview-step-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .overview-step-list li {
+    font-size: 11px;
+    color: var(--gray);
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    line-height: 1.4;
+  }
+  .osi { flex-shrink: 0; font-size: 10px; }
+
+  /* ── Separator ── */
+  .sep {
+    border: none;
+    border-top: 2px dashed var(--line);
+    margin: 40px 0;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--box); }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+  /* ── Footer ── */
+  .footer {
+    background: var(--box);
+    border-top: 2px solid var(--line);
+    padding: 16px 60px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--gray);
+    font-family: var(--hand);
+  }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<div class="cover">
+  <div>
+    <div class="cover-title">UX Flow Diagram</div>
+    <div class="cover-sub">SMARTBOOK · SMART APPOINTMENT BOOKING SYSTEM · ANGULAR 17</div>
+  </div>
+  <div class="cover-legend">
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--user-bg);border-color:var(--user-color);"></div><span style="color:rgba(255,255,255,0.6);">User Action</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--admin-bg);border-color:var(--admin-color);"></div><span style="color:rgba(255,255,255,0.6);">Admin Action</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--system-bg);border-color:var(--system-color);"></div><span style="color:rgba(255,255,255,0.6);">System/Guard</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--decision-bg);border-color:var(--decision-color);"></div><span style="color:rgba(255,255,255,0.6);">Decision</span></div>
+    <div class="legend-item"><div class="legend-swatch" style="background:var(--error-bg);border-color:var(--error-color);"></div><span style="color:rgba(255,255,255,0.6);">Error / Conflict</span></div>
+  </div>
+</div>
+
+<div class="canvas">
+  <div class="flow-canvas">
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- OVERVIEW CARDS -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="flow-section">
+      <div class="flow-section-title">
+        System Overview
+        <span class="section-pill" style="background:var(--box);color:var(--gray);border:1px solid var(--line);">4 Flows · 2 Roles · 8 Screens</span>
+      </div>
+
+      <div class="overview-grid">
+        <div class="overview-card" style="border-color:var(--user-color);">
+          <div class="overview-card-title" style="color:var(--user-color);">
+            <span>👤</span> User Auth Flow
+          </div>
+          <ul class="overview-step-list">
+            <li><span class="osi">→</span> Land on /auth/login</li>
+            <li><span class="osi">→</span> Login with credentials</li>
+            <li><span class="osi">→</span> OR register new account</li>
+            <li><span class="osi">→</span> Redirect to /booking</li>
+          </ul>
+        </div>
+        <div class="overview-card" style="border-color:#4A6FA5;">
+          <div class="overview-card-title" style="color:#4A6FA5;">
+            <span>📅</span> Booking Flow
+          </div>
+          <ul class="overview-step-list">
+            <li><span class="osi">→</span> Browse slots by date</li>
+            <li><span class="osi">→</span> Filter by service type</li>
+            <li><span class="osi">→</span> Select available slot</li>
+            <li><span class="osi">→</span> Confirm → receipt</li>
+          </ul>
+        </div>
+        <div class="overview-card" style="border-color:var(--admin-color);">
+          <div class="overview-card-title" style="color:var(--admin-color);">
+            <span>🛠</span> Admin Flow
+          </div>
+          <ul class="overview-step-list">
+            <li><span class="osi">→</span> View dashboard stats</li>
+            <li><span class="osi">→</span> Manage appointments</li>
+            <li><span class="osi">→</span> Create new slots</li>
+            <li><span class="osi">→</span> Toggle / delete slots</li>
+          </ul>
+        </div>
+        <div class="overview-card" style="border-color:var(--system-color);">
+          <div class="overview-card-title" style="color:var(--system-color);">
+            <span>⚙</span> System Guards
+          </div>
+          <ul class="overview-step-list">
+            <li><span class="osi">→</span> authGuard: logged in?</li>
+            <li><span class="osi">→</span> adminGuard: is admin?</li>
+            <li><span class="osi">→</span> guestGuard: not logged in?</li>
+            <li><span class="osi">→</span> Conflict detection logic</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <hr class="sep"/>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- FLOW 1: AUTH -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="flow-section">
+      <div class="flow-section-title">
+        Flow 1 — Authentication
+        <span class="section-pill" style="background:var(--user-bg);color:var(--user-color);border:1px solid var(--user-color);">USER + ADMIN</span>
+      </div>
+
+      <div class="flow-row" style="align-items:flex-start;gap:0;flex-wrap:nowrap;">
+
+        <!-- START -->
+        <div class="step">
+          <div class="step-start">
+            <div class="step-box">
+              <span class="step-title">START</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">visit app</div></div>
+
+        <!-- Route Guard -->
+        <div class="step step-system">
+          <div class="step-box">
+            <span class="step-num">G</span>
+            <span class="step-icon">🛡</span>
+            <span class="step-title">guestGuard</span>
+            <span class="step-sub">Is logged in?</span>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">not logged in</div></div>
+
+        <!-- Login Page -->
+        <div class="step step-user">
+          <div class="step-box">
+            <span class="step-num">1</span>
+            <span class="step-icon">🔐</span>
+            <span class="step-title">Login Page</span>
+            <span class="step-sub">/auth/login</span>
+          </div>
+          <div class="step-note">Enter email + password</div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">submit</div></div>
+
+        <!-- Decision: valid? -->
+        <div class="step step-decision" style="margin-top:0;">
+          <div class="diamond">
+            <div class="diamond-text">Credentials valid?</div>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">YES</div></div>
+
+        <!-- Decision: role? -->
+        <div class="step step-decision" style="margin-top:0;">
+          <div class="diamond">
+            <div class="diamond-text">role == admin?</div>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">YES</div></div>
+
+        <!-- Admin Dashboard -->
+        <div class="step step-admin">
+          <div class="step-box">
+            <span class="step-num">2a</span>
+            <span class="step-icon">📊</span>
+            <span class="step-title">Admin Dashboard</span>
+            <span class="step-sub">/admin</span>
+          </div>
+        </div>
+
+        <div style="width:24px;flex-shrink:0;"></div>
+
+        <!-- Callout for NO paths -->
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:-80px;">
+          <div class="callout" style="max-width:200px;">
+            <div class="callout-title">NO → role = user</div>
+            → /booking (slot list)<br>
+            Step 2b below ↓
+          </div>
+          <div class="callout" style="max-width:200px;border-color:var(--error-color);background:var(--error-bg);box-shadow:2px 2px 0 rgba(176,58,58,0.2);">
+            <div class="callout-title" style="color:var(--error-color);">Invalid credentials</div>
+            Show error alert<br>
+            Stay on login page<br>
+            Form stays filled
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Register branch -->
+      <div style="margin-top:32px;">
+        <div style="font-family:var(--hand);font-size:13px;color:var(--gray);margin-bottom:12px;padding-left:240px;">↓ Or new user clicks "Register"</div>
+        <div class="flow-row" style="padding-left:200px;">
+
+          <div class="step step-user">
+            <div class="step-box">
+              <span class="step-num">R1</span>
+              <span class="step-icon">✍</span>
+              <span class="step-title">Register Page</span>
+              <span class="step-sub">/auth/register</span>
+            </div>
+          </div>
+
+          <div class="arrow-h"><div class="arrow-label">fill form</div></div>
+
+          <div class="step step-decision" style="margin-top:0;">
+            <div class="diamond">
+              <div class="diamond-text">Form valid? Email unique?</div>
+            </div>
+          </div>
+
+          <div class="arrow-h"><div class="arrow-label">YES</div></div>
+
+          <div class="step step-system">
+            <div class="step-box">
+              <span class="step-icon">✅</span>
+              <span class="step-title">Save User</span>
+              <span class="step-sub">localStorage</span>
+            </div>
+          </div>
+
+          <div class="arrow-h"><div class="arrow-label">redirect</div></div>
+
+          <div class="step step-user">
+            <div class="step-box">
+              <span class="step-icon">🔐</span>
+              <span class="step-title">Login Page</span>
+              <span class="step-sub">with toast</span>
+            </div>
+          </div>
+
+          <div style="width:20px;flex-shrink:0;"></div>
+
+          <div class="callout" style="max-width:180px;border-color:var(--error-color);background:var(--error-bg);margin-top:0;">
+            <div class="callout-title" style="color:var(--error-color);">Validation fails</div>
+            → Show field errors<br>
+            → Email exists: alert<br>
+            → Password mismatch
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="sep"/>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- FLOW 2: BOOKING -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="flow-section">
+      <div class="flow-section-title">
+        Flow 2 — Booking an Appointment
+        <span class="section-pill" style="background:var(--user-bg);color:var(--user-color);border:1px solid var(--user-color);">USER ONLY</span>
+      </div>
+
+      <div class="flow-row" style="align-items:flex-start;">
+
+        <div class="step step-system">
+          <div class="step-box">
+            <span class="step-num">G</span>
+            <span class="step-icon">🛡</span>
+            <span class="step-title">authGuard</span>
+            <span class="step-sub">Is logged in?</span>
+          </div>
+          <div class="step-note">Protects /booking route</div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">YES</div></div>
+
+        <div class="step step-user">
+          <div class="step-box">
+            <span class="step-num">1</span>
+            <span class="step-icon">📋</span>
+            <span class="step-title">Slot List</span>
+            <span class="step-sub">/booking</span>
+          </div>
+          <div class="step-note">Select date + service filter</div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">click slot</div></div>
+
+        <div class="step step-user">
+          <div class="step-box">
+            <span class="step-num">2</span>
+            <span class="step-icon">✍</span>
+            <span class="step-title">Book Form</span>
+            <span class="step-sub">/booking/book/:id</span>
+          </div>
+          <div class="step-note">Phone + notes</div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">confirm</div></div>
+
+        <!-- Conflict Check -->
+        <div class="step step-decision" style="margin-top:0;">
+          <div class="diamond">
+            <div class="diamond-text">Conflict detected?</div>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">NO conflict</div></div>
+
+        <div class="step step-system">
+          <div class="step-box">
+            <span class="step-num">3</span>
+            <span class="step-icon">⚙</span>
+            <span class="step-title">Create Appointment</span>
+            <span class="step-sub">slot.service.ts</span>
+          </div>
+          <div class="step-note">+1 bookedCount</div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">success</div></div>
+
+        <div class="step step-system">
+          <div class="step-box">
+            <span class="step-num">4</span>
+            <span class="step-icon">✅</span>
+            <span class="step-title">Confirmation</span>
+            <span class="step-sub">/booking/confirmation/:apptId</span>
+          </div>
+          <div class="step-note">Booking ID shown</div>
+        </div>
+
+        <div style="width:20px;flex-shrink:0;"></div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:-40px;">
+          <div class="callout" style="border-color:var(--error-color);background:var(--error-bg);max-width:200px;">
+            <div class="callout-title" style="color:var(--error-color);">Conflict Cases</div>
+            1. Slot already full<br>
+            2. Same slot duplicate<br>
+            3. Time overlap same day<br>
+            → Error alert in form<br>
+            → Stay on book page
+          </div>
+          <div class="callout" style="max-width:200px;">
+            <div class="callout-title">Guard fails (NO)</div>
+            → Redirect to /auth/login<br>
+            → returnUrl param saved
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Cancel sub-flow -->
+      <div style="margin-top:28px;">
+        <div style="font-family:var(--hand);font-size:13px;color:var(--gray);margin-bottom:10px;padding-left:0;">↓ User cancels from slot list (My Appointments)</div>
+        <div class="flow-row">
+
+          <div class="step step-user">
+            <div class="step-box">
+              <span class="step-icon">📋</span>
+              <span class="step-title">My Appointments</span>
+              <span class="step-sub">bottom of slot list</span>
+            </div>
+          </div>
+
+          <div class="arrow-h"><div class="arrow-label">click Cancel</div></div>
+
+          <div class="step step-decision" style="margin-top:0;">
+            <div class="diamond">
+              <div class="diamond-text">confirm() dialog</div>
+            </div>
+          </div>
+
+          <div class="arrow-h"><div class="arrow-label">OK</div></div>
+
+          <div class="step step-system">
+            <div class="step-box">
+              <span class="step-icon">🗑</span>
+              <span class="step-title">Cancel Appt</span>
+              <span class="step-sub">status → cancelled</span>
+            </div>
+          </div>
+
+          <div class="arrow-h"><div class="arrow-label">frees slot</div></div>
+
+          <div class="step step-system">
+            <div class="step-box">
+              <span class="step-icon">🔄</span>
+              <span class="step-title">Slot Count -1</span>
+              <span class="step-sub">bookedCount--</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <hr class="sep"/>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- FLOW 3: ADMIN -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="flow-section">
+      <div class="flow-section-title">
+        Flow 3 — Admin Management
+        <span class="section-pill" style="background:var(--admin-bg);color:var(--admin-color);border:1px solid var(--admin-color);">ADMIN ONLY</span>
+      </div>
+
+      <!-- Admin login + route guard -->
+      <div class="flow-row" style="margin-bottom:32px;">
+
+        <div class="step step-admin">
+          <div class="step-box">
+            <span class="step-num">1</span>
+            <span class="step-icon">🔐</span>
+            <span class="step-title">Admin Login</span>
+            <span class="step-sub">admin@smartbook.com</span>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">role=admin</div></div>
+
+        <div class="step step-system">
+          <div class="step-box">
+            <span class="step-num">G</span>
+            <span class="step-icon">🛡</span>
+            <span class="step-title">adminGuard</span>
+            <span class="step-sub">isAdmin()?</span>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">YES</div></div>
+
+        <div class="step step-admin">
+          <div class="step-box">
+            <span class="step-num">2</span>
+            <span class="step-icon">📊</span>
+            <span class="step-title">Dashboard</span>
+            <span class="step-sub">/admin</span>
+          </div>
+          <div class="step-note">Stats + all appointments</div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:0;">
+          <div class="arrow-h"><div class="arrow-label">manage appt</div></div>
+          <div class="step step-decision" style="margin-top:0;">
+            <div class="diamond">
+              <div class="diamond-text">Action?</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin-left:20px;margin-top:-30px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:20px;height:2px;background:var(--admin-color);"></div>
+            <div class="step step-admin" style="margin:0;">
+              <div class="step-box" style="min-width:100px;">
+                <span class="step-title">Mark Complete</span>
+                <span class="step-sub">status → completed</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:20px;height:2px;background:var(--error-color);"></div>
+            <div class="step step-error" style="margin:0;">
+              <div class="step-box" style="min-width:100px;">
+                <span class="step-title">Cancel</span>
+                <span class="step-sub">frees slot capacity</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="width:20px;"></div>
+        <div class="callout" style="margin-top:-10px;">
+          <div class="callout-title">guard fails (NO)</div>
+          → redirect to /booking<br>
+          (not a 401/forbidden page)
+        </div>
+      </div>
+
+      <!-- Slot management sub-flow -->
+      <div style="font-family:var(--hand);font-size:13px;color:var(--gray);margin-bottom:12px;">↓ Admin navigates to Manage Slots</div>
+      <div class="flow-row">
+
+        <div class="step step-admin">
+          <div class="step-box">
+            <span class="step-icon">📅</span>
+            <span class="step-title">Manage Slots</span>
+            <span class="step-sub">/admin/manage-slots</span>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:0;">
+          <div class="arrow-h"><div class="arrow-label">action</div></div>
+          <div class="step step-decision" style="margin-top:0;">
+            <div class="diamond">
+              <div class="diamond-text">Slot Action?</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px;margin-left:20px;margin-top:-40px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:20px;height:2px;background:var(--system-color);"></div>
+            <div class="step step-system" style="margin:0;">
+              <div class="step-box" style="min-width:110px;">
+                <span class="step-title">Create Slot</span>
+                <span class="step-sub">validate time range</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:20px;height:2px;background:var(--user-color);"></div>
+            <div class="step" style="margin:0;">
+              <div class="step-box" style="background:var(--user-bg);border-color:var(--user-color);color:var(--user-color);min-width:110px;">
+                <span class="step-title">Toggle Active</span>
+                <span class="step-sub">isActive flip</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="width:20px;height:2px;background:var(--error-color);"></div>
+            <div class="step step-error" style="margin:0;">
+              <div class="step-box" style="min-width:110px;">
+                <div class="step-decision" style="display:contents;">
+                  <span class="step-title">Delete Slot</span>
+                  <span class="step-sub">check for bookings first</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="width:24px;"></div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div class="callout" style="max-width:180px;">
+            <div class="callout-title">Create validation</div>
+            → End > Start time<br>
+            → Date in future<br>
+            → All fields required
+          </div>
+          <div class="callout" style="max-width:180px;border-color:var(--error-color);background:var(--error-bg);">
+            <div class="callout-title" style="color:var(--error-color);">Delete blocked if:</div>
+            → Slot has confirmed<br>
+            &nbsp; bookings<br>
+            → Show error message
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="sep"/>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- FLOW 4: CONFLICT DETECTION -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="flow-section">
+      <div class="flow-section-title">
+        Flow 4 — Conflict Detection Logic (slot.service.ts)
+        <span class="section-pill" style="background:var(--system-bg);color:var(--system-color);border:1px solid var(--system-color);">BACKEND LOGIC</span>
+      </div>
+
+      <div class="flow-row" style="align-items:flex-start;">
+
+        <div class="step step-user">
+          <div class="step-box">
+            <span class="step-icon">📥</span>
+            <span class="step-title">bookSlot() called</span>
+            <span class="step-sub">{slotId, userId, phone, notes}</span>
+          </div>
+        </div>
+
+        <div class="arrow-h"></div>
+
+        <div class="step step-decision" style="margin-top:0;">
+          <div class="diamond">
+            <div class="diamond-text">Slot exists & active?</div>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">YES</div></div>
+
+        <div class="step step-decision" style="margin-top:0;">
+          <div class="diamond">
+            <div class="diamond-text">bookedCount < maxCapacity?</div>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">YES</div></div>
+
+        <div class="step step-decision" style="margin-top:0;">
+          <div class="diamond">
+            <div class="diamond-text">User already booked this slot?</div>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">NO</div></div>
+
+        <div class="step step-decision" style="margin-top:0;">
+          <div class="diamond">
+            <div class="diamond-text">Time overlap on same date?</div>
+          </div>
+        </div>
+
+        <div class="arrow-h"><div class="arrow-label">NO overlap</div></div>
+
+        <div class="step step-system">
+          <div class="step-box" style="background:#E8F5EE;border-color:var(--system-color);">
+            <span class="step-icon">✅</span>
+            <span class="step-title" style="color:var(--system-color);">BOOK SUCCESS</span>
+            <span class="step-sub" style="color:var(--system-color);">Create appointment + update slot count</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Error callouts row -->
+      <div style="display:flex;gap:16px;margin-top:28px;padding-left:160px;flex-wrap:wrap;">
+        <div class="callout" style="border-color:var(--error-color);background:var(--error-bg);max-width:190px;">
+          <div class="callout-title" style="color:var(--error-color);">Check 1 fails</div>
+          "Slot not found" or<br>"Slot no longer active"
+        </div>
+        <div class="callout" style="border-color:var(--error-color);background:var(--error-bg);max-width:190px;">
+          <div class="callout-title" style="color:var(--error-color);">Check 2 fails</div>
+          "This slot is already<br>fully booked."
+        </div>
+        <div class="callout" style="border-color:var(--error-color);background:var(--error-bg);max-width:190px;">
+          <div class="callout-title" style="color:var(--error-color);">Check 3 fails</div>
+          "You already have a<br>booking for this slot."
+        </div>
+        <div class="callout" style="border-color:var(--error-color);background:var(--error-bg);max-width:220px;">
+          <div class="callout-title" style="color:var(--error-color);">Check 4 fails (overlap)</div>
+          "You already have a<br>booking from HH:mm–HH:mm<br>on this date."
+        </div>
+      </div>
+
+      <!-- Time comparison note -->
+      <div class="callout" style="margin-top:20px;max-width:500px;">
+        <div class="callout-title">⏱ Overlap Algorithm (timeToMinutes)</div>
+        Convert HH:mm → minutes. Conflict if: slotStart &lt; existingEnd AND slotEnd &gt; existingStart<br>
+        Example: 09:30 = 570 min, 10:00 = 600 min → overlap check is purely arithmetic, no date library needed.
+      </div>
+    </div>
+
+    <hr class="sep"/>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- ROUTE MAP -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="flow-section">
+      <div class="flow-section-title">
+        Route Map
+        <span class="section-pill" style="background:var(--box);color:var(--gray);border:1px solid var(--line);">LAZY LOADED · GUARDED</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;">
+        <div>
+          <div style="font-family:var(--hand);font-size:16px;font-weight:700;margin-bottom:12px;color:var(--user-color);">👤 User Routes</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="padding:4px 12px;background:var(--box);border:1px solid var(--line);border-radius:3px;font-size:11px;font-weight:600;min-width:220px;">/auth/login</div>
+              <div style="font-family:var(--hand);font-size:11px;color:var(--gray);">guestGuard → LoginComponent</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="padding:4px 12px;background:var(--box);border:1px solid var(--line);border-radius:3px;font-size:11px;font-weight:600;min-width:220px;">/auth/register</div>
+              <div style="font-family:var(--hand);font-size:11px;color:var(--gray);">guestGuard → RegisterComponent</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="padding:4px 12px;background:var(--user-bg);border:1px solid var(--user-color);border-radius:3px;font-size:11px;font-weight:600;min-width:220px;color:var(--user-color);">/booking</div>
+              <div style="font-family:var(--hand);font-size:11px;color:var(--gray);">authGuard → SlotListComponent</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="padding:4px 12px;background:var(--user-bg);border:1px solid var(--user-color);border-radius:3px;font-size:11px;font-weight:600;min-width:220px;color:var(--user-color);">/booking/book/:slotId</div>
+              <div style="font-family:var(--hand);font-size:11px;color:var(--gray);">authGuard → BookAppointment</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="padding:4px 12px;background:var(--user-bg);border:1px solid var(--user-color);border-radius:3px;font-size:11px;font-weight:600;min-width:220px;color:var(--user-color);">/booking/confirmation/:id</div>
+              <div style="font-family:var(--hand);font-size:11px;color:var(--gray);">authGuard → ConfirmationComponent</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--hand);font-size:16px;font-weight:700;margin-bottom:12px;color:var(--admin-color);">🛠 Admin Routes</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="padding:4px 12px;background:var(--admin-bg);border:1px solid var(--admin-color);border-radius:3px;font-size:11px;font-weight:600;min-width:220px;color:var(--admin-color);">/admin</div>
+              <div style="font-family:var(--hand);font-size:11px;color:var(--gray);">adminGuard → AdminDashboard</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="padding:4px 12px;background:var(--admin-bg);border:1px solid var(--admin-color);border-radius:3px;font-size:11px;font-weight:600;min-width:220px;color:var(--admin-color);">/admin/manage-slots</div>
+              <div style="font-family:var(--hand);font-size:11px;color:var(--gray);">adminGuard → ManageSlots</div>
+            </div>
+            <div style="margin-top:16px;padding:12px;background:var(--system-bg);border:1px solid var(--system-color);border-radius:4px;">
+              <div style="font-family:var(--hand);font-size:13px;font-weight:700;color:var(--system-color);margin-bottom:6px;">Guard Chain</div>
+              <div style="font-size:11px;font-family:var(--hand);line-height:1.8;color:var(--gray);">
+                guestGuard: blocks if already logged in<br>
+                authGuard: blocks if NOT logged in<br>
+                adminGuard: blocks if not admin role
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="footer">
+  <span>SmartBook – UX Flow Diagram v1.0</span>
+  <span>Angular 17 · Standalone Components · Signals · Reactive Forms</span>
+  <span>4 Flows · 2 Roles · 8 Routes · 1 Conflict Detection Algorithm</span>
+</div>
+
+</body>
+</html>

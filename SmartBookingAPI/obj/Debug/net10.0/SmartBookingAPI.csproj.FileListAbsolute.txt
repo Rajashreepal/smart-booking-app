@@ -1,0 +1,8 @@
+D:\ .NET\smartBookingSystem\SmartBookingAPI\obj\Debug\net10.0\SmartBookingAPI.csproj.AssemblyReference.cache
+D:\ .NET\smartBookingSystem\SmartBookingAPI\obj\Debug\net10.0\rpswa.dswa.cache.json
+D:\ .NET\smartBookingSystem\SmartBookingAPI\obj\Debug\net10.0\SmartBookingAPI.GeneratedMSBuildEditorConfig.editorconfig
+D:\ .NET\smartBookingSystem\SmartBookingAPI\obj\Debug\net10.0\SmartBookingAPI.AssemblyInfoInputs.cache
+D:\ .NET\smartBookingSystem\SmartBookingAPI\obj\Debug\net10.0\SmartBookingAPI.AssemblyInfo.cs
+D:\ .NET\smartBookingSystem\SmartBookingAPI\obj\Debug\net10.0\SmartBookingAPI.csproj.CoreCompileInputs.cache
+D:\ .NET\smartBookingSystem\SmartBookingAPI\obj\Debug\net10.0\SmartBookingAPI.MvcApplicationPartsAssemblyInfo.cs
+D:\ .NET\smartBookingSystem\SmartBookingAPI\obj\Debug\net10.0\SmartBookingAPI.MvcApplicationPartsAssemblyInfo.cache
